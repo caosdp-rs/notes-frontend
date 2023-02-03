@@ -7,7 +7,9 @@ export default function Dashboard() {
   
   useEffect(() => {
     axios.get('http://shield.test/api/notes').then((payload)=>{
-      console.log(payload);
+      setNotes(payload.data)
+      //console.log(payload);
+
     }).catch((error)=>{
       console.log(error);
 
