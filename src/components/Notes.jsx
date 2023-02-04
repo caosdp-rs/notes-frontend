@@ -40,7 +40,8 @@ const Notes = ({ notes, setNotes }) => {
     return response;
   };
   return (
-    <div className="columns is-multiline">
+    notes.length > 0 ? 
+        <div className="columns is-multiline">
       {notes.map((note) => {
         return (
           <Note
@@ -54,6 +55,9 @@ const Notes = ({ notes, setNotes }) => {
         );
       })}
     </div>
+    :
+    <p className="has-text-centered subtitle"> Não existem notas</p>
+
   );
 };
 
