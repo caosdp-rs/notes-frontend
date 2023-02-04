@@ -1,17 +1,27 @@
 import { useState, React } from "react";
 
-const Note = ({ note, deleteNote, updateNote }) => {
+const Note = ({ note, deleteNote, updateNote, setError, error }) => {
   const [modeEdit, setModeEdit] = useState(false);
   const [item, setItem] = useState(note);
   const toggle = (e) => {
     e.preventDefault();
     setModeEdit(!modeEdit);
     setItem(note);
+    setError({
+      "title":"",
+      "body":""
+    })
   };
-  const edit = (e) => {
+  const edit = async (e) => {
     e.preventDefault();
-    updateNote(item);
-    setModeEdit(false);
+    if (await updateNote(item)){
+      setModeEdit(false);
+      setError({
+        "title":"",
+        "body":""
+      })
+    }
+  
   };
   return (
     <div className="column is-one-quarter">
@@ -24,10 +34,13 @@ const Note = ({ note, deleteNote, updateNote }) => {
             <label>
               Titulo
               <div className="field">
-                <div className="control"><input type="text"
+                <div className="control">
+                  <input type="text"
+
                 name="{item.title"
                 value={item.title}
                 onChange={(ev) => setItem({ ...item, title: ev.target.value })} className="input" /></div>
+                <span className="help is-danger">{error.title}</span>
               </div>
             </label>
           ) : (
@@ -48,6 +61,7 @@ const Note = ({ note, deleteNote, updateNote }) => {
                     className="textarea"
                   />
                 </div>
+                <span className="help is-danger">{error.body}</span>
               </div>
             </label>
           ) : (
