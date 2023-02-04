@@ -12,8 +12,13 @@ const Notes = ({ notes, setNotes }) => {
     // console.log(id);
     // alert(id);
     e.preventDefault();
-    const newNotes = notes.filter((note) => id !== note.id);
-    setNotes(newNotes);
+    axios.delete(`http://shield.test/api/notes/${id}`).then(payload=>{
+      alert(payload.data.message);
+      setNotes(notes.filter((note) => id !== note.id));
+    }).catch(error => {
+      alert(error.response);
+    })
+    
   };
   const updateNote = (newNote) => {
     console.log(newNote);
